@@ -7,36 +7,36 @@
         android:layout_width="match_parent"
         android:layout_height="60dp">
         <Button
+            android:id="@+id/anm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:text="AddNewMusic"
+            android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/ahm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:text="AddHotMusic"
+            android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/ahl"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:text="AddHotList"
+            android:textAllCaps="false"/>
+        <Button
             android:id="@+id/unm"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="15sp"
             android:text="UpdateNewMusic"
-            android:textAllCaps="false"/>
-        <Button
-            android:id="@+id/uhm"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="15sp"
-            android:text="UpdateHotMusic"
-            android:textAllCaps="false"/>
-        <Button
-            android:id="@+id/uhl"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="15sp"
-            android:text="UpdateHotList"
-            android:textAllCaps="false"/>
-        <Button
-            android:id="@+id/skip"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="15sp"
-            android:text="skip"
             android:textAllCaps="false"/>
 
     </LinearLayout>

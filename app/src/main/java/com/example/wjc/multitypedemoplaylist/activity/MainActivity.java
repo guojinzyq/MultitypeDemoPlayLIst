@@ -1,5 +1,6 @@
 package com.example.wjc.multitypedemoplaylist.activity;
 
+import android.app.ProgressDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -8,9 +9,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.example.wjc.multitypedemoplaylist.R;
+import com.example.wjc.multitypedemoplaylist.Repository;
 import com.example.wjc.multitypedemoplaylist.binder.HotListBinder;
 import com.example.wjc.multitypedemoplaylist.binder.HotMusicItemBinder;
 import com.example.wjc.multitypedemoplaylist.binder.NewMusicItemBinder;
@@ -27,111 +31,73 @@ import me.drakeet.multitype.MultiTypeAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static MainActivity instance=null;
+    Repository repository;
+    String TAG="MainActivity";
+    Items items;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    MultiTypeAdapter adapter;
-    static NewMusic newMusic;
-    HotMusic hotMusic;
-    HotList hotList;
-    Items items;
+    public static MultiTypeAdapter adapter;
     LinearLayoutManager manager;
     PracticeLiveData liveModel;
+    @BindView(R.id.anm)
+    Button anm;
+    @BindView(R.id.ahm)
+    Button ahm;
+    @BindView(R.id.ahl)
+    Button ahl;
     @BindView(R.id.unm)
     Button unm;
-    @BindView(R.id.uhm)
-    Button uhm;
-    @BindView(R.id.uhl)
-    Button uhl;
-    @BindView(R.id.skip)
-    Button skip;
-    @OnClick(R.id.unm)
+    @OnClick(R.id.anm)
     public void updateNewMusic(){
-        newMusic.setTitle("新歌速递2");
-        liveModel.getNewMusic().setValue(newMusic);
+
+        liveModel.updateNewMusicTitle("我的名字");
     }
-    @OnClick(R.id.uhm)
+    @OnClick(R.id.ahm)
     public void updateHotMusic(){
-        hotMusic.setTitle("热门歌单2");
-        liveModel.getHotMusic().setValue(hotMusic);
+        liveModel.hotMusic.setTitle("新版");
+
     }
-    @OnClick(R.id.uhl)
+    @OnClick(R.id.ahl)
     public void updateHotList(){
-//        hotList.setTitle("热门榜单2");
-//        liveModel.getHotList().setValue(hotList);
-        initData();
-        adapter.setItems(items);
-        adapter.notifyDataSetChanged();
+        liveModel.hotList.setTitle("新版");
+        liveModel.updateHotListObject();
     }
-    @OnClick(R.id.skip)
+    @OnClick(R.id.unm)
     public void skip(){
-        Intent intent=new Intent(MainActivity.this,SecondActivity.class);
-        startActivity(intent);
-    }
-    void initData(){
-        newMusic=new NewMusic();
-        newMusic.setTitle("新歌速递");
-        newMusic.setCenterImage(R.mipmap.new_music_image);
-        newMusic.setLeftText("新歌首发");
-        newMusic.setLeftImage(R.mipmap.new_music_image);
-        newMusic.setCenterText("新碟上架");
-        newMusic.setRightImage(R.mipmap.new_music_image);
-        newMusic.setRightText("唱片店");
-        hotMusic=new HotMusic();
-        hotMusic.setTitle("热门歌单");
-        hotMusic.setMore("更多");
-        hotMusic.setImage1(R.mipmap.hot_music_image);
-        hotMusic.setImage2(R.mipmap.hot_music_image);
-        hotMusic.setImage3(R.mipmap.hot_music_image);
-        hotMusic.setImage4(R.mipmap.hot_music_image);
-        hotMusic.setImage5(R.mipmap.hot_music_image);
-        hotMusic.setImage6(R.mipmap.hot_music_image);
-        hotMusic.setText1("起风了");
-        hotMusic.setText2("盗将行");
-        hotMusic.setText3("白龙马");
-        hotMusic.setText4("起风了");
-        hotMusic.setText5("盗将行");
-        hotMusic.setText6("白龙马");
-        hotList=new HotList();
-        hotList.setTitle("酷狗热歌榜");
-        hotList.setMore("更多");
-        hotList.setImage1(R.mipmap.hot_list_image);
-        hotList.setText1("Alan Walker-Faded");
-        hotList.setText2("火箭少女101-卡路里");
-        hotList.setText3("邓紫棋-光年之外");
-        items.add(newMusic);
-        items.add(hotMusic);
-        items.add(hotList);
+//        Intent intent=new Intent(MainActivity.this,SecondActivity.class);
+//        startActivity(intent);
+//        liveModel.updateNewMusic();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        instance=this;
-        items =new Items();
+        items=new Items();
+        Log.d(TAG,"onCreate");
         //创建类的实例
-        liveModel=ViewModelProviders.of(this).get(PracticeLiveData.class);
+        liveModel=PracticeLiveData.getInstance();
 //        liveModel=ViewModelProviders.of(this).get(PracticeLiveData.class);
         //创建观察者对象，这里观察者为data包中的三个类
         //绑定起来
         liveModel.getNewMusic().observe(this,(NewMusic newMusic) -> {
-//            items.add(newMusic);
-//            adapter.setItems(items);
             adapter.notifyDataSetChanged();
         });
         liveModel.getHotMusic().observe(this, new Observer<HotMusic>() {
             @Override
             public void onChanged(@Nullable HotMusic hotMusic) {
-//                items.add(hotMusic);
-//                adapter.setItems(items);
                 adapter.notifyDataSetChanged();
             }
         });
         liveModel.getHotList().observe(this, new Observer<HotList>() {
             @Override
             public void onChanged(@Nullable HotList hotList) {
-//                items.add(items);
-//                adapter.setItems(items);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        liveModel.getItems().observe(this, new Observer<Items>() {
+            @Override
+            public void onChanged(@Nullable Items objects) {
+                adapter.setItems(objects);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -143,5 +109,42 @@ public class MainActivity extends AppCompatActivity {
         manager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        liveModel.firstOpenApp();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"onStart");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"onDestroy");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"onResume");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG,"onRestart");
     }
 }

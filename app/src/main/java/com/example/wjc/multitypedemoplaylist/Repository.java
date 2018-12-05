@@ -4,12 +4,15 @@ import com.example.wjc.multitypedemoplaylist.data.HotList;
 import com.example.wjc.multitypedemoplaylist.data.HotMusic;
 import com.example.wjc.multitypedemoplaylist.data.NewMusic;
 
+import me.drakeet.multitype.Items;
+
 public class Repository {
 
     NewMusic newMusic;
     HotMusic hotMusic;
     HotList hotList;
-    void initData(){
+    Items items;
+    public NewMusic initNewMusicData(){
         newMusic=new NewMusic();
         newMusic.setTitle("新歌速递");
         newMusic.setCenterImage(R.mipmap.new_music_image);
@@ -18,6 +21,20 @@ public class Repository {
         newMusic.setCenterText("新碟上架");
         newMusic.setRightImage(R.mipmap.new_music_image);
         newMusic.setRightText("唱片店");
+        return newMusic;
+    }
+    public NewMusic initNewMusicData1(){
+        newMusic=new NewMusic();
+        newMusic.setTitle("新歌速递111");
+        newMusic.setCenterImage(R.mipmap.new_music_image);
+        newMusic.setLeftText("新歌首发");
+        newMusic.setLeftImage(R.mipmap.new_music_image);
+        newMusic.setCenterText("新碟上架");
+        newMusic.setRightImage(R.mipmap.new_music_image);
+        newMusic.setRightText("唱片店");
+        return newMusic;
+    }
+    public HotMusic initHotMusicData(){
         hotMusic=new HotMusic();
         hotMusic.setTitle("热门歌单");
         hotMusic.setMore("更多");
@@ -33,6 +50,9 @@ public class Repository {
         hotMusic.setText4("起风了");
         hotMusic.setText5("盗将行");
         hotMusic.setText6("白龙马");
+        return hotMusic;
+    }
+    public HotList initHotListData(){
         hotList=new HotList();
         hotList.setTitle("酷狗热歌榜");
         hotList.setMore("更多");
@@ -40,5 +60,14 @@ public class Repository {
         hotList.setText1("Alan Walker-Faded");
         hotList.setText2("火箭少女101-卡路里");
         hotList.setText3("邓紫棋-光年之外");
+        return hotList;
     }
+    public Items getItems(){
+        items=new Items();
+        items.add(initNewMusicData());
+        items.add(initHotMusicData());
+        items.add(initHotListData());
+        return items;
+    }
+
 }

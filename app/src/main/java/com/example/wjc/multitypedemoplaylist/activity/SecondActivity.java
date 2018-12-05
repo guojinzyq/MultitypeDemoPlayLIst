@@ -16,12 +16,12 @@ public class SecondActivity extends AppCompatActivity {
 
     @BindView(R.id.button)
     Button button;
-    @OnClick(R.id.button)
-    public void updateNewMusic(){
-        MainActivity.newMusic.setTitle("新歌速递3");
-        //通过get方法获得的viewmodel会根据of里的key返回一个viewmodel实例，key不变时获得的是同一个viewmodel
-        ViewModelProviders.of(MainActivity.instance).get(PracticeLiveData.class).getNewMusic().setValue(MainActivity.newMusic);
-    }
+//    @OnClick(R.id.button)
+//    public void updateNewMusic(){
+//        MainActivity.newMusic.setTitle("新歌速递3");
+//        //通过get方法获得的viewmodel会根据of里的key返回一个viewmodel实例，key不变时获得的是同一个viewmodel
+//        ViewModelProviders.of(MainActivity.instance).get(PracticeLiveData.class).getNewMusic().setValue(MainActivity.newMusic);
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
